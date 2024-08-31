@@ -63,10 +63,12 @@ function Example(param) {
     this.instanceMethod = function() { }
 }
 
-Example.prototype = {
+Object.defineProperties(Example.prototype, {
     //原型方法
-    prototypeMethod: function() { }
-}
+    prototypeMethod: {
+      value: function() { }
+    }
+})
 
 //静态方法
 /**
@@ -100,7 +102,52 @@ Example.staticMethod = function() { }
 
 #### 声明
 
+//TODO
+
 ### 继承|Extends
+
+&emsp;&emsp;在JavaScript中，继承的语法略显不同
+
+```javascript
+/**
+ * @public
+ * @class
+ * @param {string}
+ */
+function Example(param) {
+    //实例方法
+    this.instanceMethod = function() { }
+}
+
+Object.defineProperties(Example.prototype, {
+    //父类原型方法
+    prototypeMethod: {
+      value: function() { }
+    }
+})
+
+/**
+ * @public
+ * @class
+ * @param {string}
+ */
+function Test(param) {
+    //新建子类继承父类，调用父类构造函数
+    Example.call(this, param)
+}
+
+//与Java不同的是，原型链上的方法也需要手动继承，我们为您提供了一键补全。
+Test.prototype = Object.create(Example.prototype, {
+    //子类新建原型方法
+    newPrototypeMethod: {
+      value: function() { }
+    },
+    //此处将构造函数重新指向，这是不可缺少的
+    constructor: {
+    value: Test,
+    },
+})
+```
 
 ### 修饰符|Modifiers
 
