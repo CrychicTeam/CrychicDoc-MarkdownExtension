@@ -31,6 +31,7 @@ const extensionConfig = {
     extensions: ['.ts', '.js']
   },
   module: {
+    
     rules: [
       {
         test: /\.ts$/,

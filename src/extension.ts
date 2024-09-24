@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
-import { LanguageClient } from 'vscode-languageclient/node';
+import { LanguageClient } from 'vscode-languageclient/node.js';
 
-import clientInit from './client/client';
+import clientInit from './client/client.js';
 
 let client: LanguageClient;
 

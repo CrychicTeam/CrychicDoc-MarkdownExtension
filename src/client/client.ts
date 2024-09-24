@@ -34,18 +34,18 @@ export default function(context: vscode.ExtensionContext) {
 		documentSelector: [
 			{ 
 				scheme: 'file', 
-				language: 'plaintext' 
+				language: 'markdown' 
 			}
 		],
 	};
 
 	// 创建语言客户端并启动
 	const client = new LanguageClient(
-		'vscode-example-tyc',
-		'vscode-example-tyc',
+		'vscode-front-matter-tyc',
+		'vscode-front-matter-tyc',
 		serverOptions,
 		clientOptions
-	);;
+	);
 
 	// 启动客户端，这也同时启动了服务器
 	client.start();

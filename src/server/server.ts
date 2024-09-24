@@ -7,12 +7,14 @@ import {
     CompletionItem,
     CompletionItemKind,
     TextDocumentPositionParams,
-    TextDocumentSyncKind
+    TextDocumentSyncKind,
+    DiagnosticSeverity,
+    Diagnostic
 } from 'vscode-languageserver/node';
 
-import {
-    TextDocument
-} from 'vscode-languageserver-textdocument';
+import { TextDocument } from 'vscode-languageserver-textdocument';
+
+import validateMarkdown from './lint/md';
 
 // Create a connection for the server.
 const connection = createConnection(ProposedFeatures.all);
@@ -31,9 +33,9 @@ connection.onInitialize((params: InitializeParams) => {
     };
 });
 
-connection.onDidChangeConfiguration(change => {
-    // Handle configuration changes
-});
+// connection.onDidChangeConfiguration(change => {
+
+// });
 
 connection.onCompletion(
     (_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
@@ -57,5 +59,16 @@ connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
 
 documents.listen(connection);
 connection.listen();
+
+documents.onDidChangeContent(change => {
+    validateTextDocument(change.document);
+});
+
+async function validateTextDocument(textDocument: TextDocument): Promise<void> {
+	let diagnostics: Diagnostic[] = [];
+
+	diagnostics.push(...validateMarkdown(textDocument));
+	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+}
 
 export default {connection, documents};
