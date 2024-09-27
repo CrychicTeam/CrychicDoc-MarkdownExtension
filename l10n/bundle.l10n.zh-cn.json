@@ -1,0 +1,7 @@
+{
+  "error.md.index": "index.md中只应包含frontmatter",
+  "error.md.heading.top": "md文件头部必须为h1样式声明",
+  "error.md.heading.more": "在单个md文件中只应包含一个h1样式声明",
+  "extension.init.succeed": "插件加载成功",
+  "Markdown-Linter": "Markdown语法检查器"
+}

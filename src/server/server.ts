@@ -3,18 +3,16 @@ import {
     TextDocuments,
     ProposedFeatures,
     InitializeParams,
-    DidChangeConfigurationNotification,
     CompletionItem,
     CompletionItemKind,
     TextDocumentPositionParams,
     TextDocumentSyncKind,
-    DiagnosticSeverity,
     Diagnostic
 } from 'vscode-languageserver/node';
 
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
-import validateMarkdown from './lint/md';
+import validateMarkdown from './lint';
 
 // Create a connection for the server.
 const connection = createConnection(ProposedFeatures.all);
@@ -67,7 +65,7 @@ documents.onDidChangeContent(change => {
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	let diagnostics: Diagnostic[] = [];
 
-	diagnostics.push(...validateMarkdown(textDocument));
+	diagnostics.push(...await validateMarkdown(textDocument));
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
 

@@ -16,7 +16,12 @@ export default function(context: vscode.ExtensionContext) {
 	// 为服务器提供debug选项
 	// --inspect=6011: 运行在Node's Inspector mode，这样VS Code就能调试服务器了
 	// todo: 目前报错，需要调研
-	const debugOptions = { execArgv: ['--nolazy', '--inspect=6011'] };
+	const debugOptions = { 
+		execArgv: ['--nolazy', '--inspect=6011'] ,
+		env: { 
+			EXTENSION_BUNDLE_PATH: vscode.l10n.uri?.fsPath 
+		}
+	};
 
 	// 如果插件运行在调试模式那么就会使用debug server options
 	// 不然就使用run options
@@ -26,8 +31,11 @@ export default function(context: vscode.ExtensionContext) {
 			module: serverModule,
 			transport: TransportKind.ipc,
 			options: debugOptions
-		}
+		},
 	};
+
+    console.log("EXTENSION_BUNDLE_PATH: "+ vscode.l10n.uri?.fsPath);
+
 
 	// 控制语言客户端的选项
 	const clientOptions: LanguageClientOptions = {
